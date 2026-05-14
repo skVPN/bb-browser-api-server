@@ -1,20 +1,16 @@
+version: "3.8"
+
 services:
-  neko:
-    image: 'ghcr.io/m1k1o/neko/google-chrome'
-    restart: unless-stopped
-    shm_size: 2gb
-    cap_add:
-      - SYS_ADMIN
+  browser:
+    build: .
+    container_name: browser-platform
     ports:
-      - '8080:8080'
-      - '9223:9223'                    # Socat proxy for external DevTools access
-      - '52000-52100:52000-52100/udp'
-    volumes:
-      # Persistent browser profile storage (custom location)
-      - "./chrome-profile:/home/neko/chrome-profile"
+      - "18888:18888"   # API
+      - "9222:9222"     # CDP
+      - "6080:6080"     # WebUI
+    shm_size: 3gb
     environment:
-      NEKO_DESKTOP_SCREEN: 1366x768@30
-      NEKO_MEMBER_MULTIUSER_USER_PASSWORD: neko
-      NEKO_MEMBER_MULTIUSER_ADMIN_PASSWORD: admin
-      NEKO_WEBRTC_EPR: 52000-52100
-      NEKO_WEBRTC_ICELITE: 1
+      BB_DAEMON_HOST: "0.0.0.0"
+    restart: unless-stopped
+    volumes:
+      - /data/chrome-profile:/root/.bb-browser/browser/user-data
