@@ -15,3 +15,5 @@ services:
     restart: unless-stopped
     volumes:
       - /data/bb-browser-api/chrome-profile:/root/.bb-browser/browser/user-data
+    networks:
+      - browser-platform_net

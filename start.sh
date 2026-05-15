@@ -2,7 +2,18 @@
 set -e
 
 echo "[1] init display stack"
-Xvfb :99 -screen 0 1920x1080x24 &
+## Ensure display :99 is available and avoid duplicate Xvfb starts
+if pgrep -f "Xvfb .*:99" >/dev/null 2>&1; then
+	echo "Xvfb already running for display :99"
+else
+	if [ -e /tmp/.X99-lock ]; then
+		echo "Found stale /tmp/.X99-lock — removing"
+		rm -f /tmp/.X99-lock || true
+	fi
+	Xvfb :99 -screen 0 1920x1080x24 &
+	# give Xvfb a moment to initialize
+	sleep 1
+fi
 export DISPLAY=:99
 
 fluxbox &
@@ -13,7 +24,9 @@ websockify --web=/usr/share/novnc/ 6080 localhost:5900 &
 
 echo "[2] bb-browser-api (MASTER CONTROLLER)"
 
-rm /root/.bb-browser/browser/user-data/Singleton*
+if [ -d /root/.bb-browser/browser/user-data ]; then
+	rm -f /root/.bb-browser/browser/user-data/Singleton* || true
+fi
 
 bb-browser-api daemon start  &&  bb-browser-api daemon status
 echo "system ready"
