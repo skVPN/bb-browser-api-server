@@ -6,11 +6,12 @@ services:
     container_name: browser-platform
     ports:
       - "18888:18888"   # API
-      - "9222:9222"     # CDP
+      - "19825:19825"     # CDP
       - "6080:6080"     # WebUI
+      - "5900:5900"     # Remote Debugging
     shm_size: 3gb
     environment:
       BB_DAEMON_HOST: "0.0.0.0"
     restart: unless-stopped
     volumes:
-      - /data/chrome-profile:/root/.bb-browser/browser/user-data
+      - /data/bb-browser-api/chrome-profile:/root/.bb-browser/browser/user-data

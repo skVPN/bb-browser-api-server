@@ -19,7 +19,7 @@ RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd6
 # Node + bb-browser-api
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs && \
-    npm install -g bb-browser-api@0.12.6-1
+    npm install -g bb-browser-api@0.12.9
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh

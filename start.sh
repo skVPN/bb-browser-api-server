@@ -13,7 +13,7 @@ websockify --web=/usr/share/novnc/ 6080 localhost:5900 &
 
 echo "[2] bb-browser-api (MASTER CONTROLLER)"
 
-mkdir -p /data/chrome-profile
+rm /root/.bb-browser/browser/user-data/Singleton*
 
 bb-browser-api daemon start  &&  bb-browser-api daemon status
 echo "system ready"
