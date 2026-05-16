@@ -12,6 +12,7 @@ services:
     shm_size: 3gb
     environment:
       BB_DAEMON_HOST: "0.0.0.0"
+      NOVNC_TOKEN: "tec"
     restart: unless-stopped
     volumes:
       - /data/bb-browser-api/chrome-profile:/root/.bb-browser/browser/user-data

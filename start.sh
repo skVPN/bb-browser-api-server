@@ -20,7 +20,29 @@ fluxbox &
 sleep 2
 
 x11vnc -display :99 -forever -nopw -listen 0.0.0.0 &
-websockify --web=/usr/share/novnc/ 6080 localhost:5900 &
+
+NOVNC_TOKEN="${NOVNC_TOKEN:-tec}"
+mkdir -p /root/.novnc
+cat >/root/.novnc/tokenfile <<EOF
+${NOVNC_TOKEN}: localhost:5900
+EOF
+cat >/usr/share/novnc/index.html <<EOF
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="refresh" content="0;url=vnc.html?token=${NOVNC_TOKEN}" />
+  <title>Redirecting to noVNC</title>
+</head>
+<body>
+  <p>Redirecting to <a href="vnc.html?token=${NOVNC_TOKEN}">vnc.html?token=${NOVNC_TOKEN}</a></p>
+</body>
+</html>
+EOF
+websockify --web=/usr/share/novnc/ \
+  --token-plugin TokenFile \
+  --token-source /root/.novnc/tokenfile \
+  6080 localhost:5900 &
 
 echo "[2] bb-browser-api (MASTER CONTROLLER)"
 
