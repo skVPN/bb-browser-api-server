@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   browser:
     build: .
@@ -18,3 +16,7 @@ services:
       - /data/bb-browser-api/chrome-profile:/root/.bb-browser/browser/user-data
     networks:
       - browser-platform_net
+
+networks:
+  browser-platform_net:
+    driver: bridge
