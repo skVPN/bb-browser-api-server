@@ -21,6 +21,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g bb-browser-api@0.12.9
 
+# Patch noVNC ui.js: force path to include token from URL at connect time
+RUN sed -i "s|var path = UI.getSetting('path');|var path = UI.getSetting('path'); var _urlToken = (new URLSearchParams(window.location.search)).get('token'); if (_urlToken) { path = 'websockify?token=' + encodeURIComponent(_urlToken); }|" /usr/share/novnc/app/ui.js
+
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
