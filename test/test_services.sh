@@ -56,7 +56,18 @@ test_service "websockify" "docker exec $CONTAINER_NAME pgrep -f websockify"
 test_service "bb-browser-api" "docker exec $CONTAINER_NAME pgrep -f bb-browser-api"
 echo ""
 
-# 4. 检查端口监听
+# 4. 检查 Chrome 安装
+echo "4. 检查 Chrome 安装"
+if docker exec "$CONTAINER_NAME" which google-chrome > /dev/null 2>&1; then
+    echo -e "${GREEN}✓ Chrome 已安装${NC}"
+    docker exec "$CONTAINER_NAME" google-chrome --version
+else
+    echo -e "${RED}✗ Chrome 未安装${NC}"
+    echo "这会导致 bb-browser-api 无法启动！"
+fi
+echo ""
+
+# 5. 检查端口监听
 echo "4. 检查端口监听"
 test_service "VNC 端口 5900" "docker exec $CONTAINER_NAME netstat -tln | grep -q ':5900'"
 test_service "noVNC 端口 6080" "docker exec $CONTAINER_NAME netstat -tln | grep -q ':6080'"

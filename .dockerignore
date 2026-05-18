@@ -1,0 +1,55 @@
+# Git 相关
+.git
+.gitignore
+.gitattributes
+
+# 文档
+*.md
+!README.md
+docs/
+CHANGELOG.md
+QUICK_REFERENCE.md
+SOLUTION_SUMMARY.md
+PROJECT_OVERVIEW.md
+DEPLOYMENT_CHECKLIST.md
+CHINESE_FONTS_SUMMARY.md
+
+# 测试脚本（不需要在镜像中）
+test/
+
+# 部署脚本（不需要在镜像中）
+quick-start.sh
+deploy-systemd.sh
+setup-permissions.sh
+fix-chinese-fonts.sh
+
+# IDE 配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.claude/
+
+# 日志文件
+*.log
+logs/
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+
+# 备份文件
+*.tar.gz
+diagnosis.txt
+
+# Docker 相关
+docker-compose.yaml
+Dockerfile.backup
+
+# 环境文件
+.env.local
+.env.backup
