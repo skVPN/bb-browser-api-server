@@ -10,6 +10,7 @@
 - **远程桌面**: 通过 VNC 和 noVNC 访问浏览器界面
 - **进程管理**: 使用 supervisord 自动监控和重启服务
 - **持久化存储**: Chrome 配置文件持久化保存
+- **中文字体支持**: 完整的中文字体和 locale 配置
 
 ## 端口说明
 
@@ -141,6 +142,36 @@ docker exec browser-platform supervisorctl restart x11vnc
 # 4. 如果问题持续，重启容器
 docker-compose restart
 ```
+
+### 问题：中文显示乱码
+
+**原因**: 缺少中文字体或 locale 配置
+
+**解决方案**:
+```bash
+# 1. 重新构建镜像（已包含中文字体）
+docker-compose down
+docker-compose build --no-cache
+docker-compose up -d
+
+# 2. 验证字体安装
+chmod +x test/test_chinese_fonts.sh
+./test/test_chinese_fonts.sh
+
+# 3. 清除浏览器缓存
+docker exec browser-platform bash -c 'rm -rf /root/.bb-browser/browser/user-data/Default/Cache/*'
+
+# 4. 重启浏览器 API
+docker exec browser-platform supervisorctl restart bb-browser-api
+
+# 详细文档
+cat docs/chinese-fonts-guide.md
+```
+
+**已安装的中文字体**:
+- 文泉驿正黑/微米黑
+- Google Noto CJK 字体
+- 文鼎 UKai/UMing 字体
 
 ### 问题：浏览器无法启动
 

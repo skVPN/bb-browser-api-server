@@ -1,5 +1,57 @@
 # 更新日志
 
+## [2.1.0] - 2026-05-18
+
+### 🎨 新增：完整的中文字体支持
+
+解决了浏览器中文显示乱码的问题。
+
+#### 新增功能
+
+1. **中文字体包**
+   - 文泉驿正黑/微米黑（WenQuanYi Zen Hei / Micro Hei）
+   - Google Noto CJK 字体（Noto Sans/Serif/Mono CJK SC）
+   - 文鼎 UKai/UMing 字体（AR PL UKai/UMing）
+
+2. **中文 Locale 配置**
+   - 安装 zh_CN.UTF-8 语言包
+   - 配置环境变量 LANG、LC_ALL、LANGUAGE
+   - 在 supervisord 中传递环境变量
+
+3. **字体配置优化**
+   - 创建 fonts.conf 字体配置文件
+   - 配置字体优先级和渲染选项
+   - 启用字体抗锯齿和 hinting
+
+4. **测试和文档**
+   - `test/test_chinese_fonts.sh` - 中文字体测试脚本
+   - `docs/chinese-fonts-guide.md` - 详细的字体配置指南
+   - `fix-chinese-fonts.sh` - 一键修复脚本
+
+#### 文件变更
+
+- **Dockerfile**：添加中文字体和 locale 配置
+- **supervisord.conf**：添加环境变量传递
+- **fonts.conf**：新增字体配置文件
+- **README.md**：添加中文字体支持说明
+
+#### 使用方法
+
+```bash
+# 方式 1: 一键修复
+./fix-chinese-fonts.sh
+
+# 方式 2: 手动修复
+docker-compose down
+docker-compose build --no-cache
+docker-compose up -d
+
+# 验证
+./test/test_chinese_fonts.sh
+```
+
+---
+
 ## [2.0.0] - 2026-05-18
 
 ### 🎉 重大更新：从手动管理到自动化运维

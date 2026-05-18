@@ -124,6 +124,28 @@ docker exec browser-platform supervisorctl restart all
 docker-compose restart
 ```
 
+### 问题：中文显示乱码
+
+```bash
+# 快速修复
+chmod +x fix-chinese-fonts.sh
+./fix-chinese-fonts.sh
+
+# 或手动修复
+docker-compose down
+docker-compose build --no-cache
+docker-compose up -d
+
+# 验证字体
+./test/test_chinese_fonts.sh
+
+# 清除浏览器缓存
+docker exec browser-platform bash -c 'rm -rf /root/.bb-browser/browser/user-data/Default/Cache/*'
+
+# 重启浏览器
+docker exec browser-platform supervisorctl restart bb-browser-api
+```
+
 ### 问题：浏览器无法启动
 
 ```bash
