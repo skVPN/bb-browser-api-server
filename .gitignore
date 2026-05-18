@@ -1,1 +1,29 @@
-chrome-profile
+# Chrome 配置文件
+chrome-profile/
+*.tar.gz
+
+# 日志文件
+*.log
+logs/
+
+# 测试输出
+diagnosis.txt
+
+# IDE 配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+
+# Docker 相关
+.env.local
+
+# 备份文件
+*.backup
+*.bak

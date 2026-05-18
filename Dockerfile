@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     dbus-x11 fonts-liberation \
     libnss3 libxss1 libasound2 \
     libgbm1 libgtk-3-0 \
+    supervisor \
     && rm -rf /var/lib/apt/lists/*
 
 # Chrome
@@ -24,7 +25,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
 # Patch noVNC ui.js: force path to include token from URL at connect time
 RUN sed -i "s|var path = UI.getSetting('path');|var path = UI.getSetting('path'); var _urlToken = (new URLSearchParams(window.location.search)).get('token'); if (_urlToken) { path = 'websockify?token=' + encodeURIComponent(_urlToken); }|" /usr/share/novnc/app/ui.js
 
+# 配置 supervisord
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-ENTRYPOINT ["/start.sh"]
+ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

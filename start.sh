@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 此脚本已被 supervisord 替代，保留用于手动调试
+
 set -e
 
 export DISPLAY=:99
